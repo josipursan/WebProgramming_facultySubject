@@ -1,0 +1,48 @@
+#backgroundVideo
+{
+    z-index: -1;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+
+    outline: 1px solid red;
+
+}
+
+.navbar
+{
+    background: rgba(0,0,0,0.25);
+}
+
+.navbar a 
+{
+    color: white;
+}
+
+.navbar a:hover
+{
+    color:gray;
+}
+
+#pageTitle
+{
+    margin-top: 21%;
+    font-size: 4vw;
+    color: white;
+}
+
+#buttonTest
+{
+    margin-top: 1%;
+}
+
+.container
+{
+    outline: 1px solid purple;
+}
+
+
+
+
