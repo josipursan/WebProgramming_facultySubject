@@ -53,6 +53,19 @@
     background: rgba(0,0,0,0.35);
 }
 
+/*  
+OVO JE IDEJA KAKO DA ZA MOBITELE MAKNES BACKGROUND VIDEO I STAVIS SLIKE ILI BILO KOJU DRUGU POZADINU
+
+@media only screen and (max-width : 600px)
+{
+    #backgroundVideo
+    {
+        display: none;  //OVO UKLANJA POZADINSKI VIDEO
+        ILI 
+        visiblity : hidden; //OVO SKRIVA POZADINSKI VIDEO
+    }
+}
+*/
 
 
 

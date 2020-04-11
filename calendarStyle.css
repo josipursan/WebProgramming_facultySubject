@@ -1,0 +1,91 @@
+body
+{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#backgroundVideo
+{
+    z-index: -1;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+}
+
+.flipCard 
+{
+    background-color: transparent;
+    width: 300px;
+    height: 310px;
+    perspective: 1000px;
+    padding-right: 3%;
+    margin-left: 24%;
+    
+}
+  
+.flipCardInner
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
+}
+  
+.flipCard:hover .flipCardInner 
+{
+    transform: rotateY(180deg);
+}
+  
+.flipCardFront, .flipCardBack
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+  
+.flipCardFront 
+{
+    background-color: rgba(0,0,0,0.4);
+    color: white;
+}
+  
+.flipCardBack
+{
+    background-color: black;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.jumbotron
+{
+    color: white;
+    background-color: rgba(0,0,0,0.4);
+    margin-bottom: 0%;
+}
+
+img
+{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.row
+{
+    padding-bottom: 3%;
+}
+
+@media only screen and (max-width : 600px)
+{
+    .flipCard
+    {
+        margin-left: 5%;
+        
+    }
+}
