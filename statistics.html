@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src = "Bootstrap_jQuery_Popper/jquery-3.4.1.min.js"></script>
+    <link rel = "stylesheet" href = "Bootstrap_jQuery_Popper/bootstrap-4.4.1-dist/css/bootstrap.min.css">
+    <script src = "Bootstrap_jQuery_Popper/popper.min.js"></script>
+    <script src = "Bootstrap_jQuery_Popper/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+
+    <link rel = "stylesheet" type = "text/css" href = "Styles/statisticsStyle.css">
+    <!--<script type="text/javascript" src = "functionality.js"></script> -->
+
+</head>
+
+<body>
+
+    
+
+
+    <div class = "container-fluid text-center">
+
+        <div class = "row">
+            <div class = "col-sm-4" id = "queryByDriverSection">
+                <h1 id = "driver_track_sectionHeading">By driver</h1>
+                <form action="queryDriver.php">
+                    <input type = "number" id = "yearInput" min = "1950" max = "2050" placeholder="Year">
+                    <br><br/>
+                    
+                    <input type = "text" placeholder="Driver's last name">
+                    <br><br/>
+                    
+                    <input type="text" placeholder="Team">
+                    <br><br/>
+                    
+                    <input type = "text" placeholder="Circuit">
+                    <br><br/>
+            
+                    <button type="submit" class="btn btn-success">Query</button>
+                </form>
+            </div>
+
+            <div class = "col-sm-4" id = "queryByTeamSection">
+                <h1 id = "teamHeading">By team</h1>
+                <form action="queryTeam.php">
+                    <input type = "number" id = "yearInput" min = "1950" max = "2050" placeholder="Year">
+                    <br><br/>
+                    
+                    <input type="text" placeholder="Team">
+                    <br><br/>
+                    
+                    <input type = "text" placeholder="Circuit">
+                    <br><br/>
+            
+                    <button type="submit" class="btn btn-success">Query</button>
+                </form>
+            </div>
+
+            <div class = "col-sm-4" id = "queryByCircuitSection">
+                <h1 id = "driver_track_sectionHeading">By circuit</h1>
+                <form action="queryCircuit.php">
+                    <input type = "number" id = "yearInput" min = "1950" max = "2050" placeholder="Year">
+                    <br><br/>
+                    
+                    <input type = "text" placeholder="Circuit">
+                    <br><br/>
+            
+                    <button type="submit" class="btn btn-success">Query</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+    
+    
+    
+</body>

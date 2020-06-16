@@ -18,6 +18,10 @@ body
     -moz-filter: grayscale(100%);
     filter: grayscale(100%);
     transition: all 0.5s ease;  /* Linija koja radi tranziciju sa grayscale slike na color sliku smoothly */
+
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #secondColumn
@@ -32,6 +36,10 @@ body
     -moz-filter: grayscale(100%);
     filter: grayscale(100%);
     transition: all 0.5s ease;
+
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #thirdColumn
@@ -46,13 +54,16 @@ body
     -moz-filter: grayscale(100%);
     filter: grayscale(100%);
     transition: all 0.5s ease;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
 #firstColumn:hover
 {
     background-image: url('../Resources/Images/SanMarino_1989.jpg');    /* https://wtf1.com/post/10-must-see-onboard-f1-videos-1980s/ --> izvor za sliku "SanMarino_1989.jpg"*/
-    background-size: cover;
     -webkit-filter: grayscale(0%);
     -moz-filter: grayscale(0%);
     filter: grayscale(0%);
@@ -61,7 +72,6 @@ body
 #secondColumn:hover
 {
     background-image: url('../Resources/Images/Brazil2018.jpg');
-    background-size: cover;
     -webkit-filter: grayscale(0%);
     -moz-filter: grayscale(0%);
     filter: grayscale(0%);
@@ -70,7 +80,6 @@ body
 #thirdColumn:hover
 {
     background-image: url('../Resources/Images/F1Car2021Overhead.jpg');
-    background-size: cover;
     -webkit-filter: grayscale(0%);
     -moz-filter: grayscale(0%);
     filter: grayscale(0%);

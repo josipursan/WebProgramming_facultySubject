@@ -1,0 +1,103 @@
+body
+{
+    
+}
+
+.jumbotron
+{
+    background-color: rgba(0,0,0,0);
+    color: black;
+}
+
+/* ----------------------------------------------------------- BASIC SETUP AND LOOK ------------------------------------------------------- */
+#queryByDriverSection
+{
+    background-image: url('../Resources/Images/Driver5.jpg');
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+
+    -webkit-filter: grayscale(100%);    /* Razlicite filter naredbe su zbog razlicitih browsera */
+    -moz-filter: grayscale(100%);
+    filter: grayscale(100%);
+    transition: all 0.5s ease;  /* Linija koja radi tranziciju sa grayscale slike na color sliku smoothly */
+
+    padding-top: 16%;
+    padding-bottom: 16%;
+}
+
+#queryByTeamSection
+{
+    background-image: url('../Resources/Images/Team2.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    filter: grayscale(100%);
+    transition: all 0.5s ease;
+
+    padding-top: 16%;
+    padding-bottom: 16%;
+}
+
+#queryByCircuitSection
+{
+    background-image: url('../Resources/Images/Circuit6.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    filter: grayscale(100%);
+    transition: all 0.5s ease;
+
+    padding-top: 16%;
+    padding-bottom: 16%;
+}
+/* ------------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* -------------------------------------------------------------- ON HOVER LOOK ---------------------------------------------------- */
+#queryByDriverSection:hover
+{
+    background-image: url('../Resources/Images/Driver5.jpg');    /* https://wtf1.com/post/10-must-see-onboard-f1-videos-1980s/ --> izvor za sliku "SanMarino_1989.jpg"*/
+
+    -webkit-filter: grayscale(0%);
+    -moz-filter: grayscale(0%);
+    filter: grayscale(0%);
+}
+
+#queryByTeamSection:hover
+{
+    background-image: url('../Resources/Images/Team2.jpg');
+
+    -webkit-filter: grayscale(0%);
+    -moz-filter: grayscale(0%);
+    filter: grayscale(0%);
+}
+
+#queryByCircuitSection:hover
+{
+    background-image: url('../Resources/Images/Circuit6.jpg');
+    
+    -webkit-filter: grayscale(0%);
+    -moz-filter: grayscale(0%);
+    filter: grayscale(0%);
+}
+/* ------------------------------------------------------------------------------------------------------------------------------- */
+
+#driver_track_sectionHeading
+{
+    margin-bottom: 5%;
+    color: white;
+}
+
+#teamHeading
+{
+    margin-bottom: 5%;
+    color: black;
+}
+
