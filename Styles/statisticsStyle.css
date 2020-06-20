@@ -22,8 +22,8 @@ body
     filter: grayscale(100%);
     transition: all 0.5s ease;  /* Linija koja radi tranziciju sa grayscale slike na color sliku smoothly */
 
-    padding-top: 16%;
-    padding-bottom: 16%;
+    padding-top: 18%;
+    padding-bottom: 18%;
 }
 
 #queryByTeamSection
@@ -38,8 +38,8 @@ body
     filter: grayscale(100%);
     transition: all 0.5s ease;
 
-    padding-top: 16%;
-    padding-bottom: 16%;
+    padding-top: 18%;
+    padding-bottom: 18%;
 }
 
 #queryByCircuitSection
@@ -54,8 +54,8 @@ body
     filter: grayscale(100%);
     transition: all 0.5s ease;
 
-    padding-top: 16%;
-    padding-bottom: 16%;
+    padding-top: 18%;
+    padding-bottom: 18%;
 }
 /* ------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -101,3 +101,27 @@ body
     color: black;
 }
 
+.queryOptions_anchorTags
+{
+    color: white;
+}
+
+.queryOptions_anchorTags:hover
+{
+    color: gray;
+    text-decoration: none;
+}
+
+#teamQueryOptions
+{
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 5%;
+    padding: 1%;
+    color: white;
+}
+
+#teamQueryOptions:hover
+{
+    color: gray;
+    text-decoration: none;
+}

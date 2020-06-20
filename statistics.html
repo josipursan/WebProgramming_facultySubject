@@ -9,7 +9,7 @@
     <script src = "Bootstrap_jQuery_Popper/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
 
     <link rel = "stylesheet" type = "text/css" href = "Styles/statisticsStyle.css">
-    <!--<script type="text/javascript" src = "functionality.js"></script> -->
+    <script type="text/javascript" src = "Functionalities/statisticsFunctionality.js"></script>
 
 </head>
 
@@ -19,58 +19,71 @@
 
 
     <div class = "container-fluid text-center">
-
         <div class = "row">
             <div class = "col-sm-4" id = "queryByDriverSection">
                 <h1 id = "driver_track_sectionHeading">By driver</h1>
-                <form action="queryDriver.php">
-                    <input type = "number" id = "yearInput" min = "1950" max = "2050" placeholder="Year">
+                <form action="PHP_scripts/driverQuery.php" method="GET">
+                    <input type = "number" id = "yearInput" min = "1950" max = "2050" placeholder="Year" autocomplete="off">
                     <br><br/>
                     
-                    <input type = "text" placeholder="Driver's last name">
+                    <input type = "text" placeholder="Driver's last name" autocomplete="off">
                     <br><br/>
                     
-                    <input type="text" placeholder="Team">
+                    <input type = "text" placeholder="Team" autocomplete="off">
                     <br><br/>
-                    
-                    <input type = "text" placeholder="Circuit">
+
+                    <input type = "text" placeholder="Circuit" autocomplete="off">
                     <br><br/>
             
                     <button type="submit" class="btn btn-success">Query</button>
+
+                    <a href = "#" class = "queryOptions_anchorTags" data-toggle = "tooltip_driverQueryOptions" data-placement="bottom" title = "Driver query options.">
+                        Query options?
+                    </a>
                 </form>
             </div>
 
             <div class = "col-sm-4" id = "queryByTeamSection">
                 <h1 id = "teamHeading">By team</h1>
-                <form action="queryTeam.php">
-                    <input type = "number" id = "yearInput" min = "1950" max = "2050" placeholder="Year">
+                <form action = "PHP_scripts/teamQuery.php" method="GET">
+                    <input type = "number" name = "yearInput" id = "yearInput" min = "1950" max = "2050" placeholder="Year" autocomplete="off">
                     <br><br/>
                     
-                    <input type="text" placeholder="Team">
+                    <input type="text" name = "teamInput" placeholder="Team" autocomplete="off">
                     <br><br/>
                     
-                    <input type = "text" placeholder="Circuit">
+                    <input type = "text" name="circuitInput" placeholder="Circuit" autocomplete="off">
                     <br><br/>
             
                     <button type="submit" class="btn btn-success">Query</button>
+
+                    <a href = "#" id = "teamQueryOptions" data-toggle = "tooltip_teamQueryOptions" data-placement="bottom" title = "You can query using all of the parameters, using team and circuit as filters, or using year and team as filters.">
+                        Query options?
+                    </a>
                 </form>
             </div>
 
             <div class = "col-sm-4" id = "queryByCircuitSection">
                 <h1 id = "driver_track_sectionHeading">By circuit</h1>
-                <form action="queryCircuit.php">
-                    <input type = "number" id = "yearInput" min = "1950" max = "2050" placeholder="Year">
+                <form action="PHP_scripts/circuitQuery.php" method="GET">
+                    <input type = "number" id = "yearInput" name = "yearInput" min = "1950" max = "2050" placeholder="Year" autocomplete="off">
                     <br><br/>
                     
-                    <input type = "text" placeholder="Circuit">
+                    <input type = "text" name="circuitInput" placeholder="Circuit" autocomplete="off">
                     <br><br/>
             
                     <button type="submit" class="btn btn-success">Query</button>
+
+                    <a href = "#" class = "queryOptions_anchorTags" data-toggle = "tooltip_circuitQueryOptions" data-placement="bottom" title = "You can query by year and circuit, or only by circuit.">
+                        Query options?
+                        <!-- <button type="submit" class="btn btn-info">Query options?</button>  POSTOJI I OPCIJA UPORABE GUMBA TU KAO PODRUCJA NA KOJE KORISNIK HOVERA --> 
+                    </a>
+                
+
                 </form>
             </div>
-
-
         </div>
+
     </div>
 
     
