@@ -27,25 +27,15 @@
     <?php
     require "APICALL_KEYWORDS.php";
 
-    $yearInput = filter_input(INPUT_GET, "yearInput");
-    $teamInput = filter_input(INPUT_GET, "teamInput", FILTER_SANITIZE_STRING);
-    $cicruitInput = filter_input(INPUT_GET, "circuitInput", FILTER_SANITIZE_STRING);
-    
-    // echo $yearInput;
-    // echo "</br>";
-
-    // echo $teamInput;
-    // echo "</br>";
-
-    // echo $cicruitInput;
-    // echo "</br>";
+    $yearInput = filter_input(INPUT_GET, "yearInput");  
+    $teamInput = filter_input(INPUT_GET, "teamInput");  // za sada je tu maknut FILTER_SANITIZE_STRING jer on uklanja _ ako je prisutan, a ponekad je potreban za id-eve Ergast API-ja
+    $cicruitInput = filter_input(INPUT_GET, "circuitInput");    // za sada je tu maknut FILTER_SANITIZE_STRING jer on uklanja _ ako je prisutan, a ponekad je potreban za id-eve Ergast API-ja
 
     if(!isset($yearInput) || trim($yearInput) == '')
     {
         $apiCallString = $apiCallRootSection . $constructorStringFilter . $slash . $teamInput . $slash . $circuitsStringFilter . $slash . $cicruitInput . $slash . $resultsStringFilter . $jsonString ;
         $response = file_get_contents($apiCallString);
         $response = json_decode($response, true);
-        print_r($response);
         // BUILD POZIVA KAD GODINA NIJE UNESENA
     }
     elseif(!isset($cicruitInput) || trim($cicruitInput) == '')
@@ -53,7 +43,6 @@
         $apiCallString = $apiCallRootSection . $yearInput . $slash . $constructorStringFilter . $slash . $teamInput . $slash . $resultsStringFilter . $jsonString;
         $response = file_get_contents($apiCallString);
         $response = json_decode($response, true);
-        print_r($response);
         // BUILD POZIVA KAD STAZA NIJE UNESENA
     }
     else
@@ -61,60 +50,47 @@
         $apiCallString = $apiCallRootSection . $yearInput . $slash . $constructorStringFilter . $slash . $teamInput . $slash . $circuitsStringFilter . $slash . $cicruitInput . $slash . $resultsStringFilter . $jsonString;
         $response = file_get_contents($apiCallString);
         $response = json_decode($response, true);
-        //print_r($response);
+
+        $firstLayer = $response['MRData']['RaceTable']['Races'][0]['Results'];
+
+        $data = array(
+            array(),    //first name    0
+            array(),    // last name    1
+            array(),    //constructor   2
+            array(),    //laps          3
+            array(),    //starting pos. 4
+            array(),    //time          5
+            array(),    //status        6
+            array(), //points           7
+            array() //finishing pos.    8
+        );
+    
+        $numberOfDrivers = getNumberOfDrivers($firstLayer);
+        
+        for($i = 0; $i < $numberOfDrivers; $i++)
+        {
+            isset($firstLayer[$i]["Driver"]["givenName"]) ? array_push($data[0], $firstLayer[$i]["Driver"]["givenName"]) : array_push($data[0], '/');
+            isset($firstLayer[$i]["Driver"]["familyName"]) ? array_push($data[1], $firstLayer[$i]["Driver"]["familyName"]) : array_push($data[1], '/'); 
+            isset($firstLayer[$i]["Constructor"]["name"]) ? array_push($data[2], $firstLayer[$i]["Constructor"]["name"]) : array_push($data[2], '/');
+            isset($firstLayer[$i]['laps']) ? array_push($data[3], $firstLayer[$i]['laps']) : '/';
+            isset($firstLayer[$i]['grid']) ? array_push($data[4], $firstLayer[$i]['grid']) : '/';
+            isset($firstLayer[$i]['status']) ? array_push($data[5], $firstLayer[$i]['status']) : '/';
+            isset($firstLayer[$i]['points']) ? array_push($data[6], $firstLayer[$i]['points']) : '/';
+            isset($firstLayer[$i]['positionText']) ? array_push($data[7], $firstLayer[$i]['positionText']) : '/';
+        }
+    
+        buildTable_AllFilters($data);
+
         // BUILD CIJELOG POZIVA SA SVIM POLJIMA UNESENIM
     }
 
-    echo $apiCallString;
 
-    $firstLayer = $response['MRData']['RaceTable']['Races'][0]['Results'];
-
-    $data = array(
-        array(),    //first name    0
-        array(),    // last name    1
-        array(),    //constructor   2
-        array(),    //laps          3
-        array(),    //starting pos. 4
-        array(),    //time          5
-        array(),    //status        6
-        array(), //points           7
-        array() //finishing pos.    8
-    );
-
-    $numberOfDrivers = 1;   // Ovaj blok provjerava koliko ima vozaca
-    while(true)     
-    {
-        if(!array_key_exists($numberOfDrivers, $firstLayer))
-        {
-            break;
-        }
-        else
-        {
-            $numberOfDrivers += 1;
-            continue;
-        }
-    }
-
-    for($i = 0; $i < $numberOfDrivers; $i++)
-    {
-        isset($firstLayer[$i]["Driver"]["givenName"]) ? array_push($data[0], $firstLayer[$i]["Driver"]["givenName"]) : array_push($data[0], '/');
-        isset($firstLayer[$i]["Driver"]["familyName"]) ? array_push($data[1], $firstLayer[$i]["Driver"]["familyName"]) : array_push($data[1], '/'); 
-        isset($firstLayer[$i]["Constructor"]["name"]) ? array_push($data[2], $firstLayer[$i]["Constructor"]["name"]) : array_push($data[2], '/');
-        isset($firstLayer[$i]['laps']) ? array_push($data[3], $firstLayer[$i]['laps']) : '/';
-        isset($firstLayer[$i]['grid']) ? array_push($data[4], $firstLayer[$i]['grid']) : '/';
-        isset($firstLayer[$i]['status']) ? array_push($data[5], $firstLayer[$i]['status']) : '/';
-        isset($firstLayer[$i]['points']) ? array_push($data[6], $firstLayer[$i]['points']) : '/';
-        isset($firstLayer[$i]['positionText']) ? array_push($data[7], $firstLayer[$i]['positionText']) : '/';
-        // PRIMJER PUSHANJA U data ARRAY BEZ "ERROR HANDLINGA" ZA SLUCAJEVE KADA ODREDENI VOZACI NEMAJU ODREDENE PARAMETRE DEFINIRANE POPUT AVG.SPEED ITD... : 
-        //                                          array_push($data[5], $firstLayer[$i]["status"]);
-    }
-
-    buildTable($data);
+    
 
 
     /////////////////////////////////////////////   ˇˇ FUNCTIONS ˇˇ  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    function buildTable($twoDimDataArray)
+    function buildTable_AllFilters($twoDimDataArray)
     {
         $tableHeadersArray = array('First name', 'Last name', 'Constructor', 'Laps', 'Starting position', 'Status', 'Points', 'Finishing position');
 
@@ -159,7 +135,31 @@
                 echo "</div>";
             echo "</div>";
         echo "</div>";
+    }
 
+    function buildTable_onlyYear($twoDimDataArray)
+    {
+        // TO DO...
+    }
+
+
+
+    function getNumberOfDrivers($firstLayer)
+    {
+        $numberOfDrivers = 1;
+
+        while(true)     
+        {
+            if(!array_key_exists($numberOfDrivers, $firstLayer))
+            {
+                break;
+            }
+            else
+            {
+                $numberOfDrivers += 1;
+            }
+        }
+        return $numberOfDrivers;
     }
 
 
@@ -200,39 +200,3 @@
 
 
 </body>
-
-<?php
-
-
-
-
-/*  PRIMJERI MOGUCIH QUERYA :
-
-
-    Korisnik moze unijeti slijedece podatke : godina, ekipa, staza
-
-
-
-    1. Korisnik odabire polja ekipa, godina i staza.
-
-        http://ergast.com/api/f1/2012/constructors/mclaren/circuits/spa/results     --------> ovime se prikazuju rezultati odabrane ekipe za odabranu sezonu na odabranoj stazi, tj. rezultat koji su ostvarili vozaci
-
-    2. Korisnik odabire sezonu i ekipu.
-
-        http://ergast.com/api/f1/2012/constructors/mclaren/results      -----> ovime se prikazuju rezultati odabrane ekipe za cijelu odabranu sezonu, tj. za sve utrke
-
-    3. Korisnik odabire ekipu i stazu
-
-        http://ergast.com/api/f1/constructors/mclaren/circuits/spa/results  -----> ovime se prikazuju svi rezultati odabrane ekipe na nekoj stazi (svi rezultati od prve do zadnje odrzane utrke na toj stazi)
-
-
-    Komentari : /
-
-
-        
-        ** AKO SE REZULTATI ZELE POKUPITI U OBLIKU JSON-A, NA KRAJU SVAKOG UPITA POTREBNO JE DODATI ".json"
-
-*/
-
-
-?>

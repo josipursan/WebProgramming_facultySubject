@@ -33,7 +33,7 @@
     require 'APICALL_KEYWORDS.php';
 
     $selectedYear = filter_input(INPUT_GET, "yearInput");
-    $selectedCircuit = filter_input(INPUT_GET, "circuitInput", FILTER_SANITIZE_STRING);     
+    $selectedCircuit = filter_input(INPUT_GET, "circuitInput");   // za sada je tu maknut FILTER_SANITIZE_STRING jer on uklanja _ ako je prisutan, a ponekad je potreban za id-eve Ergast API-ja  
     $selectedCircuit = strtolower($selectedCircuit);    // cak i ako korisnik unese neku glupost kao MoNzA, sPA, itd., api call radi jer api vjerojatno na svojoj strani provjerava ulaz
     // tu je svejedno rucno low casano da to lici na nesto
 
@@ -42,91 +42,65 @@
         $apiCallString = $apiCallRootSection . $circuitsStringFilter . $slash . $selectedCircuit . $slash . $resultsStringFilter . $jsonString;
         $response = file_get_contents($apiCallString);
         $response = json_decode($response, true);
-        //print_r($response);
         //  POZIV KADA GODINA NIJE UNESENA - PRIKAZUJU SE SVI REZULTATI NA ODABRANOJ STAZI
-
-        echo "</br>";
-        echo "</br>";
-        
-        //echo $apiCallString;
+        // tu otvoriti Ergast api stranicu s rezultatom tog poziva
     }
-    elseif(!isset($selectedCircuit) || trim($selectedCircuit) == '')
+    elseif(!isset($selectedCircuit) || trim($selectedCircuit) == '')    //  AKO STAZA NIJE UNESENA, KORISNIKA SE VRACA NA statistics.html
     {
         header('Location: ../statistics.html');
         exit();
-        //  AKO STAZA NIJE UNESENA, KORISNIKA SE VRACA NA statistics.html
     }
-    else
+    else    // UNESENI  SU GODINA I STAZA
     {
         $apiCallString = $apiCallRootSection . $selectedYear . $slash . $circuitsStringFilter . $slash . $selectedCircuit . $slash . $resultsStringFilter . $jsonString;
 
         $response = file_get_contents($apiCallString);
         $response = json_decode($response, true);
-        //print_r($response);
-        //  POZIV KADA SU UNESENI I GODINA I STAZA
-        echo "</br>";
-        echo "</br>";
+
+        $season = isset($response['MRData']['RaceTable']['season']) ? $response['MRData']['RaceTable']['season'] : '/' ;
+        $roundInSeason = isset($response['MRData']['RaceTable']['Races'][0]['round']) ? $response['MRData']['RaceTable']['Races'][0]['round'] : '/';
+        $circuitName = isset($response['MRData']['RaceTable']['Races'][0]['Circuit']['circuitName']) ? $response['MRData']['RaceTable']['Races'][0]['Circuit']['circuitName'] : '/';
+        $country = isset($response['MRData']['RaceTable']['Races'][0]['Circuit']['Location']['country']) ? $response['MRData']['RaceTable']['Races'][0]['Circuit']['Location']['country'] : '/';
+        $raceDate = isset($response['MRData']['RaceTable']['Races'][0]['date']) ? $response['MRData']['RaceTable']['Races'][0]['date'] : '/';
+
+        $basicDataArray = array($season, $roundInSeason, $circuitName, $country, $raceDate);
+        $basicData_tableHeader = array('Season', 'Round', 'Circuit name', 'Country', 'Date');
+
         
-        //echo $apiCallString;
+        $firstLayer = $response['MRData']['RaceTable']['Races'][0]['Results'];
+
+        $data = array(
+            array(),    //  first name 
+            array(),    //  last name
+            array(),    // constructor
+            array(),    // time
+            array(),    //  avg speed
+            array()     //  status
+        );
+
+        $numberOfDrivers = getNumberOfDrivers($firstLayer);
+
+        for($i = 0; $i < $numberOfDrivers; $i++)
+        {
+            isset($firstLayer[$i]["Driver"]["givenName"]) ? array_push($data[0], $firstLayer[$i]["Driver"]["givenName"]) : array_push($data[0], '/');
+            isset($firstLayer[$i]["Driver"]["familyName"]) ? array_push($data[1], $firstLayer[$i]["Driver"]["familyName"]) : array_push($data[1], '/');   
+            isset($firstLayer[$i]["Constructor"]["name"]) ? array_push($data[2], $firstLayer[$i]["Constructor"]["name"]) : array_push($data[2], '/');
+            isset($firstLayer[$i]["FastestLap"]["Time"]["time"]) ? array_push($data[3], $firstLayer[$i]["FastestLap"]["Time"]["time"]) : array_push($data[3], '/');
+            isset($firstLayer[$i]["FastestLap"]["AverageSpeed"]["speed"]) ? array_push($data[4], $firstLayer[$i]["FastestLap"]["AverageSpeed"]["speed"]) : array_push($data[4], '/');
+            isset($firstLayer[$i]["status"]) ? array_push($data[5], $firstLayer[$i]["status"]) : array_push($data[$i], '/');
+
+            // PRIMJER PUSHANJA U data ARRAY BEZ "ERROR HANDLINGA" ZA SLUCAJEVE KADA ODREDENI VOZACI NEMAJU ODREDENE PARAMETRE DEFINIRANE POPUT AVG.SPEED ITD... : 
+            //                                          array_push($data[5], $firstLayer[$i]["status"]);
+        }
+
+        buildBasicInfoTable($basicDataArray, $basicData_tableHeader);
+        buildCircuitResultTable($data);
     }
-
-    echo "</br>";
-
-    $season = isset($response['MRData']['RaceTable']['season']) ? $response['MRData']['RaceTable']['season'] : '/' ;
-    $roundInSeason = isset($response['MRData']['RaceTable']['Races'][0]['round']) ? $response['MRData']['RaceTable']['Races'][0]['round'] : '/';
-    $circuitName = isset($response['MRData']['RaceTable']['Races'][0]['Circuit']['circuitName']) ? $response['MRData']['RaceTable']['Races'][0]['Circuit']['circuitName'] : '/';
-    $country = isset($response['MRData']['RaceTable']['Races'][0]['Circuit']['Location']['country']) ? $response['MRData']['RaceTable']['Races'][0]['Circuit']['Location']['country'] : '/';
-    $raceDate = isset($response['MRData']['RaceTable']['Races'][0]['date']) ? $response['MRData']['RaceTable']['Races'][0]['date'] : '/';
-
-    $basicDataArray = array($season, $roundInSeason, $circuitName, $country, $raceDate);
-    $basicData_tableHeader = array('Season', 'Round', 'Circuit name', 'Country', 'Date');
 
     
-    $firstLayer = $response['MRData']['RaceTable']['Races'][0]['Results'];
-
-    $data = array(
-        array(),    //stavi tu imenovanje, i promijeni sto je potrebno u funkciji koja builda tablicu ("firstNames => array(), ....)
-        array(),
-        array(),
-        array(),
-        array(),
-        array()
-    );    //Polje u koje se trpaju imena, prezimena, ekipe, najbolja vremena, itd... za prikaz u tablici. 
-
-    $numberOfDrivers = 1;   // Ovaj blok provjerava koliko ima vozaca
-    while(true)     
-    {
-        if(!array_key_exists($numberOfDrivers, $firstLayer))
-        {
-            break;
-        }
-        else
-        {
-            $numberOfDrivers += 1;
-            continue;
-        }
-    }
-
-    for($i = 0; $i < $numberOfDrivers; $i++)
-    {
-        isset($firstLayer[$i]["Driver"]["givenName"]) ? array_push($data[0], $firstLayer[$i]["Driver"]["givenName"]) : array_push($data[0], '/');
-        isset($firstLayer[$i]["Driver"]["familyName"]) ? array_push($data[1], $firstLayer[$i]["Driver"]["familyName"]) : array_push($data[1], '/');   
-        isset($firstLayer[$i]["Constructor"]["name"]) ? array_push($data[2], $firstLayer[$i]["Constructor"]["name"]) : array_push($data[2], '/');
-        isset($firstLayer[$i]["FastestLap"]["Time"]["time"]) ? array_push($data[3], $firstLayer[$i]["FastestLap"]["Time"]["time"]) : array_push($data[3], '/');
-        isset($firstLayer[$i]["FastestLap"]["AverageSpeed"]["speed"]) ? array_push($data[4], $firstLayer[$i]["FastestLap"]["AverageSpeed"]["speed"]) : array_push($data[4], '/');
-        isset($firstLayer[$i]["status"]) ? array_push($data[5], $firstLayer[$i]["status"]) : array_push($data[$i], '/');
-
-        // PRIMJER PUSHANJA U data ARRAY BEZ "ERROR HANDLINGA" ZA SLUCAJEVE KADA ODREDENI VOZACI NEMAJU ODREDENE PARAMETRE DEFINIRANE POPUT AVG.SPEED ITD... : 
-        //                                          array_push($data[5], $firstLayer[$i]["status"]);
-    }
 
 
-    buildBasicInfoTable($basicDataArray, $basicData_tableHeader);
-
-    buildCircuitResultTable($data);
-
-
-    /////////////////////////////////////////\\///   ˇˇ FUNCTIONS ˇˇ  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    ////////////////////////////////////////////   ˇˇ FUNCTIONS ˇˇ  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     function buildBasicInfoTable($basicDataArray, $basicData_tableHeader)
     {
@@ -192,6 +166,23 @@
         echo "</div>";
     }
 
+    function getNumberOfDrivers($firstLayer)
+    {
+        $endNumberOfDrivers = 1;
+
+        while(true)     
+        {
+            if(!array_key_exists($endNumberOfDrivers, $firstLayer))
+            {
+                break;
+            }
+            else
+            {
+                $endNumberOfDrivers += 1;
+            }
+        }
+        return $endNumberOfDrivers;
+    }
 
 
 
