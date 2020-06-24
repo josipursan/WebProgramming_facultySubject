@@ -75,9 +75,7 @@
         for($i = 0; $i < $numberOfRaces; $i++)
         {
             isset($firstLayer[$i]['raceName']) ? array_push($data[0], $firstLayer[$i]['raceName']) : '/';
-        }
-        for($i = 0; $i < $numberOfRaces; $i++)
-        {
+
             for($j = 0; $j < 1; $j++)
             {
                 isset($firstLayer[$i]['Results'][$j]['Driver']['givenName']) ? array_push($data[1], $firstLayer[$i]['Results'][$j]['Driver']['givenName']) : '/';
@@ -89,7 +87,7 @@
             }
         }
         buildTable_driverResults($data);
-        echo $apiCallString;
+        //echo $apiCallString;
     }
 
 
@@ -134,9 +132,7 @@
                         echo "<td>$status</td>";
                         echo "<td>$points</td>";
                         echo "<td>$position</td>";
-                        echo "</tr>";
-                        
-                        
+                        echo "</tr>";       
                     }
 
                     for($k = 1; $k < 7; $k++)
