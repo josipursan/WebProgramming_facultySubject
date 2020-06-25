@@ -23,21 +23,15 @@
             <div class = "col-sm-4" id = "queryByDriverSection">
                 <h1 id = "driver_track_sectionHeading">By driver</h1>
                 <form action="PHP_scripts/driverQuery.php" method="GET">
-                    <input type = "number" id = "yearInput" min = "1950" max = "2050" placeholder="Year" autocomplete="off">
+                    <input type = "number" name = "yearInput" id = "yearInput" min = "1950" max = "2050" placeholder="Year" autocomplete="off">
                     <br><br/>
                     
-                    <input type = "text" placeholder="Driver's last name" autocomplete="off">
+                    <input type = "text" name = "lastName" placeholder="Driver's last name" autocomplete="off">
                     <br><br/>
                     
-                    <input type = "text" placeholder="Team" autocomplete="off">
-                    <br><br/>
-
-                    <input type = "text" placeholder="Circuit" autocomplete="off">
-                    <br><br/>
-            
                     <button type="submit" class="btn btn-success">Query</button>
 
-                    <a href = "#" class = "queryOptions_anchorTags" data-toggle = "tooltip_driverQueryOptions" data-placement="bottom" title = "Driver query options.">
+                    <a href = "#" class = "queryOptions_anchorTags" data-toggle = "tooltip_driverQueryOptions" data-placement="bottom" title = "Both fields have to be used.">
                         Query options?
                     </a>
                 </form>
