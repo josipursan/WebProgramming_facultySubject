@@ -1,0 +1,36 @@
+#detailsQuerySection
+{
+    margin-bottom: 10%;
+}
+
+
+#currentDriversSectionHeading
+{
+    color: black;
+    margin-bottom: -7%;
+    margin-top: 3%;
+}
+
+#raceListSectionHeading
+{
+    color: black;
+    margin-top: 7%;
+    margin-bottom: -6%;
+}
+
+#driverTeamDetailsSectionHeading
+{   
+    margin-bottom: 4%;
+    margin-top: 5%;
+
+}
+
+/* caption{
+    caption-side : top;
+    font-size : 2em;
+} */
+
+.table{
+    margin-top: 10%;
+}
+
