@@ -3,7 +3,7 @@
 
 <head>
     <meta charset = "UTF-8">
-    <title>Circuit query</title>
+    <title>Driver query</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -28,7 +28,6 @@
 
 <body>
 
-
     <?php
     require "APICALL_KEYWORDS.php";
 
@@ -42,7 +41,6 @@
         $apiCallString = $apiCallRootSection . $year . $slash . $driverStringFilter . $slash . $lastName . $slash . $resultsStringFilter . $jsonString . $apiCallString_additionToGetAllRacesInOneGo;
         $response = file_get_contents($apiCallString);
         $response = json_decode($response, true);
-        
         
         $response = file_get_contents($apiCallString);
         $response = json_decode($response, true);
@@ -87,10 +85,16 @@
             }
         }
         buildTable_driverResults($data);
-        //echo $apiCallString;
+    }
+    if(!isset($lastName) || trim($lastName) == '')
+    {
+        header('Location: ../statistics.html');
+        exit();
     }
 
 
+
+//////////////////////////////// ˇˇ FUNCTIONS ˇˇ \\\\\\\\\\\\\\\\\\\\\\\\\
     function buildTable_driverResults($twoDimDataArray)
     {
         $tableHeadersArray = array('Race list', 'First name', 'Last name', 'Laps', 'Status', 'Points', 'Position');

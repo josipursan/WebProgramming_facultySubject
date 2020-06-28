@@ -39,9 +39,8 @@
 
     if(!isset($selectedYear) || trim($selectedYear) == '')
     {
-        $apiCallString = $apiCallRootSection . $circuitsStringFilter . $slash . $selectedCircuit . $slash . $resultsStringFilter . $jsonString;
-        $response = file_get_contents($apiCallString);
-        $response = json_decode($response, true);
+        header('Location: ../statistics.html');
+        exit();
         //  POZIV KADA GODINA NIJE UNESENA - PRIKAZUJU SE SVI REZULTATI NA ODABRANOJ STAZI
         // tu otvoriti Ergast api stranicu s rezultatom tog poziva
     }
@@ -183,30 +182,6 @@
         }
         return $endNumberOfDrivers;
     }
-
-
-
-    /*  PRIMJERI MOGUCIH QUERYA : 
-
-        Korisnik moze unijeti slijedece podatke : godina, staza
-
-
-        1. Korisnik odabire polja godina i staze.
-
-            http://ergast.com/api/f1/2012/circuits/monza/results        ------> ovime se izbacuje rezultat utrke za odabranu sezonu i odabranu stazu
-
-
-        2. Korisnik odabire samo stazu.
-
-            http://ergast.com/api/f1/circuits/monza/results     ------> ovime se izbacuju svi rezultati utrka na odabranoj stazi od prve ikada odrzane utrke, do posljednje.
-
-        
-
-        Komentari : 
-            -2. poziv nije bas mudar, mnoge utrke poput Monze, Spa, Silverstone-a, itd. se odrzavaju desetljecima, a bas da se sve to parsa, i prikazuje u prikladnim tablicama nije pametno
-
-
-    */
     ?>
 
 </body>

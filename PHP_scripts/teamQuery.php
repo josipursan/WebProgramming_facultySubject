@@ -3,7 +3,7 @@
 
 <head>
     <meta charset = "UTF-8">
-    <title>Circuit query</title>
+    <title>Team query</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -122,10 +122,11 @@
         // BUILD CIJELOG POZIVA SA SVIM POLJIMA UNESENIM
     }
 
-    echo $apiCallString;
-
-
-    
+    if(!isset($teamInput) || trim($teamInput) == '')
+    {
+        header('Location: ../statistics.html');
+        exit();
+    }
 
 
     /////////////////////////////////////////////   ˇˇ FUNCTIONS ˇˇ  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -254,42 +255,5 @@
         }
         return $numberOfDrivers;
     }
-
-
-
-
-    /*  PRIMJERI MOGUCIH QUERYA :
-
-
-        Korisnik moze unijeti slijedece podatke : godina, ekipa, staza
-
-
-
-        1. Korisnik odabire polja ekipa, godina i staza.
-
-            http://ergast.com/api/f1/2012/constructors/mclaren/circuits/spa/results     --------> ovime se prikazuju rezultati odabrane ekipe za odabranu sezonu na odabranoj stazi, tj. rezultat koji su ostvarili vozaci
-
-        2. Korisnik odabire sezonu i ekipu.
-
-            http://ergast.com/api/f1/2012/constructors/mclaren/results      -----> ovime se prikazuju rezultati odabrane ekipe za cijelu odabranu sezonu, tj. za sve utrke
-
-        3. Korisnik odabire ekipu i stazu
-
-            http://ergast.com/api/f1/constructors/mclaren/circuits/spa/results  -----> ovime se prikazuju svi rezultati odabrane ekipe na nekoj stazi (svi rezultati od prve do zadnje odrzane utrke na toj stazi)
-
-
-        Komentari :     
-            -kod querya samo ekipe i staze (kad se prikazuju svi povijesni podaci) mozda nije losa ideja da jednostavno otvoris taj link na Ergast API-ju, a ne da sam to sve parsas.
-
-
-            
-            ** AKO SE REZULTATI ZELE POKUPITI U OBLIKU JSON-A, NA KRAJU SVAKOG UPITA POTREBNO JE DODATI ".json"
-
-    */
-
-
     ?>
-
-
-
 </body>
